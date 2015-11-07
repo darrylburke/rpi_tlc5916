@@ -122,11 +122,13 @@ class tlc5916:
     def test(self):
         self.set_pwm(20)
         print("running test sequence")
-        for x in range(5):
-            for i in range(8):
-                string = "%2d" % (i)
-                print("sending %s" % string)
-                self.setleds(i)
-                time.sleep(0.1)
+        # for x in range(5):
+        #     for i in range(8):
+        #         string = "%2d" % (i)
+        #         print("sending %s" % string)
+        #         self.setleds(i)
+        #         time.sleep(0.1)
+        self.update(1)
+        time.sleep(1)
         self.update(0)
 
