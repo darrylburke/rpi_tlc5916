@@ -1,5 +1,6 @@
 import tlc5916_driver
 tlc5916_driver.init();
+tlc5916_driver.set_pins(11,12,13,15);
 tlc5916_driver.set_debug(True);
 tlc5916_driver.set_chips(2);
 tlc5916_driver.set_offset(0);
