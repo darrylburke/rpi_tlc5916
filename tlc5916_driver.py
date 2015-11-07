@@ -90,6 +90,16 @@ def printarray(myarray):
             output += str(val)
             output += ":"
         print (output)
+        
+def set_pins(p1,p2,p3,p4):
+    global DataOutPin
+    global ClockPin
+    global LatchPin
+    global OEPin
+    DataOutPin=p1
+    ClockPin=p2
+    LatchPin=p3
+    OEPin=p4
 
 def toggleLatch():
     global GPIO
