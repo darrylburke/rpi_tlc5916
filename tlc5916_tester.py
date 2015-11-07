@@ -1,3 +1,4 @@
 import tlc5916_driver
-mytlc5916 = tlc5916_driver.tlc5916()
-mytlc5916.test();
+tlc5916_driver.init();
+tlc5916_driver.set_debug(True);
+tlc5916_driver.test();
