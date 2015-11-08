@@ -2,12 +2,11 @@
 title: tcl5916 Driver
 author: Darryl Burke - 2015
 Desc:  Driver for TLC5916in Chip Support up to 4 chips in series
-
 """
 import time
 import RPi.GPIO as GPIO
 
-#default pins
+#defaults
 NumOfChips=4
 MaxChips=4
 LEDOutputs=8
@@ -24,7 +23,7 @@ pwm=0
 TMPLEDS=[]
 
 # Init Pins
-
+#Initialize all the pins
 def init():
     global pwm
     global GPIO
@@ -40,7 +39,7 @@ def init():
     GPIO.output(ClockPin,False)
     pwm = GPIO.PWM(OEPin, pwmFreq)
     pwm.start(pwmLoad)
-
+#Set all the LEDs based on an array of which leds to turn on
 def setleds(ledarray):
     global TMPLEDS
     create_empty_array()
@@ -59,7 +58,7 @@ def setleds(ledarray):
     printarray(TMPLEDS)
     send_arrays()
     toggleLatch()
-
+#create an empty array for populating with LEDs to turn on
 def create_empty_array():
     global TMPLEDS
     if debug:
@@ -75,7 +74,7 @@ def create_empty_array():
         #TMPLEDS.append(_arr)
     if debug:
         printarray(TMPLEDS)
-
+# print the array for diagnostics
 def printarray(myarray):
     print ("Created Blank Array")
     #for i in range(MaxChips):
@@ -90,7 +89,7 @@ def printarray(myarray):
             output += str(val)
             output += ":"
         print (output)
-        
+#set the pins for Data, Clock, Latch and OE        
 def set_pins(p1,p2,p3,p4):
     global DataOutPin
     global ClockPin
@@ -100,20 +99,20 @@ def set_pins(p1,p2,p3,p4):
     ClockPin=p2
     LatchPin=p3
     OEPin=p4
-
+#toggle the latch to move the data from the temporary store to the leds
 def toggleLatch():
     global GPIO
     GPIO.output(LatchPin,True)
     GPIO.output(LatchPin,False)
-
+# turn off all leds
 def turn_off():
      set_pwm(0)
      #GPIO.output(OEPin, True)
-
+#turn on all leds 100% by default unless specified
 def turn_on(load=100):
     set_pwm(load)
     #GPIO.output(OEPin, False)
-
+# light the LEDS according to whats in TMPLED array
 def send_arrays():
    global GPIO
    for j in range (NumOfChips):
@@ -136,7 +135,7 @@ def send_arrays():
                  print ("OFF: %d : %d" % (j,i))
               GPIO.output(DataOutPin,False)
           GPIO.output(ClockPin,True)
-
+#clear all LEDs
 def clear_leds():
    for j in range (NumOfChips):
        setleds([])
@@ -145,29 +144,24 @@ def clear_all_leds():
    for j in range (MaxChips):
        setleds([])
 
-
+#set the number of chips in series you are using
 def set_chips(chips):
     global NumOfChips
     NumOfChips = chips
-
+#set the debug flag on/off
 def set_debug( dbg):
     global debug
     print ("Setting Debug to %s" % str(dbg))
     debug=dbg
-
+# set the pwm brightness
 def set_pwm(newpwm):
     global pwm
     pwm.ChangeDutyCycle(pwmLoad-newpwm)
-
-def cleanup():
-    global GPIO
-    set_pwm(0)
-    GPIO.cleanup()
-
+# set the board offset if you are using 1 chip but want to display what should be on 1-4. for diagnostics only
 def set_offset(value):
     global Offset
     Offset=value;
-
+# test function
 def test():
     print("running test sequence")
     turn_on(1)
