@@ -27,7 +27,7 @@ TMPLEDS=[]
 def init():
     global pwm
     global GPIO
-    GPIO.cleanup()
+   
     GPIO.setwarnings(True)
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(OEPin, GPIO.OUT)
@@ -171,3 +171,4 @@ def test():
     #setleds([1])
     time.sleep(5)
     setleds([])
+    GPIO.cleanup()
