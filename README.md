@@ -11,4 +11,5 @@ Use 4 GPIO pins (default are 11,12,13,15), they can be changed via the method se
 
 Run the test script.
 
+**Note: If the test reports errors of locaked ports or does not light up the LEDs, then you need to install the wiringPi library (http://wiringpi.com/download-and-install/)
 
