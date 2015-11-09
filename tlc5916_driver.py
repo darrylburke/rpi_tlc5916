@@ -28,7 +28,7 @@ def init():
     global pwm
     global GPIO
    
-    GPIO.setwarnings(True)
+    GPIO.setwarnings(debug)
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(OEPin, GPIO.OUT)
     GPIO.setup(LatchPin, GPIO.OUT)
@@ -77,10 +77,12 @@ def create_empty_array():
         printarray(TMPLEDS)
 # print the array for diagnostics
 def printarray(myarray):
-    print ("Created Blank Array")
+    if debug:
+        print ("Created Blank Array")
     #for i in range(MaxChips):
     #    print("sending %d = %s" % (i, ','.join(str(x) for x in array[i])))
-    print ("Array:")
+    if debug:
+        print ("Array:")
     for x in range(MaxChips):
         output='  '
         output+=str(x)
@@ -89,7 +91,8 @@ def printarray(myarray):
             val = myarray[x][y]
             output += str(val)
             output += ":"
-        print (output)
+        if debug:
+            print (output)
 #set the pins for Data, Clock, Latch and OE        
 def set_pins(p1,p2,p3,p4):
     global DataOutPin
@@ -164,7 +167,7 @@ def set_offset(value):
     Offset=value;
 # test function
 def test():
-    print("running test sequence")
+    print("Running test sequence")
     turn_on(1)
     setleds([1,2,11,12,21,22,31,32])
     #setleds([1,2])
