@@ -229,7 +229,7 @@ def test():
          print("LED:%s" % i)
         # setleds([i,i+8,i+16,i+24])
          setleds([i])
-         time.sleep(1)
+         time.sleep(.02)
       #for i in range(1,NumOfChips*LEDOutputs+1):
       #   print("LED:%s" % i)
       #   setleds([i])
