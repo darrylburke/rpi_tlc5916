@@ -5,6 +5,7 @@ Desc:  Driver for TLC5916in Chip Support up to 4 chips in series
 """
 import time
 import RPi.GPIO as GPIO
+import json
 
 #defaults
 NumOfChips=4
@@ -22,13 +23,26 @@ pwmFreq=200
 pwmLoad=100
 pwm=0
 TMPLEDS=[]
+#ledjson=null;
 
-# Init Pins
-#Initialize all the pins
+def ledmap(position):
+    global ledjson
+    led = ledjson['map'][position]
+    print("Mapped LED [%d] to [%d]" % (position, led));
+    return led    
 def init():
+
+    global ledjson
     global pwm
     global GPIO
    
+    inputjson = open ("led_map.json")
+    jsonstring = inputjson.read()
+    ledjson = json.loads(jsonstring)
+    print ("JSON: %s" % jsonstring)
+
+    ledmap(5)
+
     GPIO.setwarnings(debug)
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(OEPin, GPIO.OUT)
@@ -52,9 +66,11 @@ def setleds(ledarray):
        for x in range (MaxChips):
           for y in range (LEDOutputs):
              position = x * LEDOutputs + y
-             if (led-1) == position:
+             newled = ledmap(led)
+             if (newled-1) == position:
                  if debug:
                     print ("Setting %d : %d -> %d" % (x,y,1))
+                 print ("LED: old:%d new:%d  board:%d  led:%d" % (led,ledmap(led),x,y))
                  TMPLEDS[x][y]=1
 
     print ("Array with Set Values")
